@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600&family=Kaushan+Script&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+  body{margin:0;background:#0A0A0A;}
+  ::selection{background:#FF6A00;color:#0A0A0A;}
+  input,textarea,button{font-family:inherit;}
+  @keyframes wave{0%,60%,100%{transform:rotate(0deg)}10%,30%{transform:rotate(15deg)}20%{transform:rotate(-9deg)}40%{transform:rotate(-4deg)}50%{transform:rotate(11deg)}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  @keyframes floatyslow{0%,100%{transform:translate(0,0)}50%{transform:translate(22px,-26px)}}
+  @keyframes glowpulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.07)}}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes scrollbob{0%{transform:translateY(-110%)}100%{transform:translateY(220%)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+  @media (max-width:760px){ .hide-sm{display:none!important;} }
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;min-height:100vh;background:#0A0A0A;color:#F4F1EC;font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;">
+
+  <div data-progress style="position:fixed;top:0;left:0;height:3px;width:100%;background:linear-gradient(90deg,#FF6A00,#FF9D4D);transform:scaleX(0);transform-origin:left;z-index:120;pointer-events:none;"></div>
+  <div data-cursor-dot style="position:fixed;top:0;left:0;width:7px;height:7px;border-radius:50%;background:#FF6A00;z-index:130;pointer-events:none;mix-blend-mode:screen;"></div>
+  <div data-cursor-ring style="position:fixed;top:0;left:0;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(255,106,0,.5);z-index:130;pointer-events:none;transition:width .25s,height .25s,border-color .25s;"></div>
+
+  <div data-parallax="0.05" style="position:absolute;top:6%;left:-10%;width:min(52vw,560px);height:min(52vw,560px);border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.14),transparent 66%);filter:blur(34px);pointer-events:none;z-index:0;animation:floatyslow 18s ease-in-out infinite;"></div>
+  <div data-parallax="0.08" style="position:absolute;top:180vh;right:-12%;width:min(48vw,520px);height:min(48vw,520px);border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.10),transparent 66%);filter:blur(38px);pointer-events:none;z-index:0;animation:floatyslow 22s ease-in-out infinite reverse;"></div>
+
+  <!-- ============ NAV ============ -->
+  <header data-nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:15px clamp(18px,5vw,72px);border-bottom:1px solid transparent;transition:background .35s,border-color .35s;">
+    <a href="#top" data-hoverable style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:#F4F1EC;font-weight:700;letter-spacing:.16em;font-size:.78rem;text-transform:uppercase;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#FF6A00;box-shadow:0 0 12px #FF6A00;"></span>Faisal Hasan
+    </a>
+    <div style="position:relative;">
+      <button data-menu-btn data-hoverable data-magnetic aria-expanded="false" style="display:inline-flex;align-items:center;gap:12px;background:#F4F1EC;color:#0A0A0A;border:none;border-radius:999px;padding:11px 8px 11px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:transform .18s;">
+        Menu
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#0A0A0A;color:#FF6A00;font-size:.8rem;"><span data-menu-icon style="display:inline-block;transition:transform .35s;line-height:1;">⌄</span></span>
+      </button>
+      <div data-menu-panel style="position:absolute;top:calc(100% + 12px);right:0;width:230px;background:#F4F1EC;color:#0A0A0A;border-radius:18px;overflow:hidden;max-height:0;opacity:0;pointer-events:none;transition:max-height .4s cubic-bezier(.16,1,.3,1),opacity .3s;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);">
+        <div style="padding:10px;">
+          <a data-menu-link href="#about" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;text-decoration:none;color:#0A0A0A;font-weight:500;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s,background .2s;" style-hover="background:rgba(255,106,0,.12)">About <span style="color:#FF6A00;">↗</span></a>
+          <a data-menu-link href="#skills" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;text-decoration:none;color:#0A0A0A;font-weight:500;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s,background .2s;" style-hover="background:rgba(255,106,0,.12)">Skills <span style="color:#FF6A00;">↗</span></a>
+          <a data-menu-link href="#projects" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;text-decoration:none;color:#0A0A0A;font-weight:500;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s,background .2s;" style-hover="background:rgba(255,106,0,.12)">Projects <span style="color:#FF6A00;">↗</span></a>
+          <a data-menu-link href="#contact" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:12px;text-decoration:none;color:#0A0A0A;font-weight:500;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s,background .2s;" style-hover="background:rgba(255,106,0,.12)">Contact <span style="color:#FF6A00;">↗</span></a>
+          <a data-menu-link href="assets/Faisal_Hasan_Resume.pdf" download="Faisal Hasan Resume.pdf" style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#F4F1EC;background:#0A0A0A;font-weight:600;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .4s;">Download Résumé <span style="color:#FF6A00;">↓</span></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="top" style="position:relative;min-height:100svh;display:flex;flex-direction:column;padding:clamp(96px,13vh,150px) clamp(18px,5vw,72px) 24px;overflow:hidden;">
+    <canvas data-hero-canvas style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <p data-reveal style="position:relative;z-index:4;margin:0;font-family:'Archivo',sans-serif;font-size:clamp(1.02rem,1.9vw,1.5rem);color:#F4F1EC;font-weight:600;">
+      Hey <span style="display:inline-block;transform-origin:70% 70%;animation:wave 2.6s ease-in-out infinite;">👋</span> I'm a <span style="color:#F4F1EC;font-weight:700;">Mobile App Dev &amp; AI/ML Enthusiast</span>
+    </p>
+
+    <h1 data-name style="position:relative;z-index:2;margin:clamp(12px,2.2vh,24px) 0 0;font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(2.4rem,11vw,12.8rem);line-height:.95;letter-spacing:-.01em;white-space:nowrap;color:#FF6A00;text-shadow:0 0 55px rgba(255,106,0,.3);">FAISAL HASAN</h1>
+
+    <div style="flex:1 1 auto;min-height:clamp(230px,38vh,520px);"></div>
+
+    <div data-hero-glow style="position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);width:min(60vw,620px);height:min(60vw,620px);border-radius:50%;background:radial-gradient(circle,rgba(255,128,32,.22),rgba(255,106,0,.07) 48%,transparent 72%);filter:blur(26px);z-index:1;pointer-events:none;animation:glowpulse 7s ease-in-out infinite;"></div>
+    <div style="position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(72vw,calc(62vh * 0.925),640px);z-index:3;pointer-events:none;">
+      <div style="position:relative;-webkit-mask-image:linear-gradient(to bottom,#000 62%,rgba(0,0,0,.85) 74%,rgba(0,0,0,.38) 86%,transparent 98%);mask-image:linear-gradient(to bottom,#000 62%,rgba(0,0,0,.85) 74%,rgba(0,0,0,.38) 86%,transparent 98%);">
+        <img src="assets/faisal-hero-new.png" alt="Faisal Hasan" style="width:100%;display:block;filter:brightness(.9) saturate(.88) contrast(1.05);">
+        <img src="assets/faisal-hero-new.png" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;display:block;filter:sepia(1) saturate(2.6) hue-rotate(-18deg) brightness(1.25) contrast(1.05);mix-blend-mode:screen;opacity:.55;-webkit-mask-image:radial-gradient(90% 62% at 50% 5%,#000,rgba(0,0,0,.35) 45%,transparent 70%);mask-image:radial-gradient(90% 62% at 50% 5%,#000,rgba(0,0,0,.35) 45%,transparent 70%);">
+      </div>
+    </div>
+
+    <div class="hide-sm" style="position:absolute;right:clamp(14px,3vw,44px);top:48%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:4;">
+      <div style="position:relative;width:1px;height:64px;background:rgba(255,255,255,.16);overflow:hidden;"><div style="position:absolute;left:0;top:0;width:100%;height:36%;background:#FF6A00;animation:scrollbob 1.9s ease-in-out infinite;"></div></div>
+      <span style="writing-mode:vertical-rl;text-transform:uppercase;letter-spacing:.34em;font-size:.6rem;color:#8A8681;">Scroll</span>
+    </div>
+
+    <div class="hide-sm" data-reveal style="position:absolute;right:clamp(18px,5vw,72px);top:66%;z-index:4;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;font-size:clamp(.86rem,1vw,1rem);line-height:1.8;letter-spacing:.01em;">
+      <div style="display:flex;gap:16px;"><span style="width:1ch;text-align:right;color:rgba(244,241,236,.18);user-select:none;">1</span><span style="white-space:pre;color:#8A8681;"><span style="color:#FF9D4D;">if</span> (<span style="color:#F4F1EC;">ideas</span> != <span style="color:#FF9D4D;">null</span>) {</span></div>
+      <div style="display:flex;gap:16px;"><span style="width:1ch;text-align:right;color:rgba(244,241,236,.18);user-select:none;">2</span><span style="white-space:pre;color:#8A8681;padding-left:2ch;"><span style="color:#FF6A00;font-weight:600;">buildApps</span>();</span></div>
+      <div style="display:flex;gap:16px;"><span style="width:1ch;text-align:right;color:rgba(244,241,236,.18);user-select:none;">3</span><span style="white-space:pre;color:#8A8681;">} <span style="color:#FF9D4D;">else</span> {</span></div>
+      <div style="display:flex;gap:16px;"><span style="width:1ch;text-align:right;color:rgba(244,241,236,.18);user-select:none;">4</span><span style="white-space:pre;color:#8A8681;padding-left:2ch;"><span style="color:#C9A183;font-weight:500;">orderCoffee</span>();</span></div>
+      <div style="display:flex;gap:16px;"><span style="width:1ch;text-align:right;color:rgba(244,241,236,.18);user-select:none;">5</span><span style="white-space:pre;color:#8A8681;">}<span style="display:inline-block;width:.55em;height:1.05em;background:#FF6A00;margin-left:10px;vertical-align:-0.15em;animation:blink 1.2s step-end infinite;"></span></span></div>
+    </div>
+
+    <div style="position:relative;z-index:4;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px 24px;padding-top:20px;">
+      <div data-reveal style="display:flex;flex-direction:column;gap:5px;font-size:.9rem;">
+        <a href="mailto:faisalsplaybook@gmail.com" data-hoverable style="text-decoration:none;color:#F4F1EC;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#8A8681;margin-right:8px;">E</span>faisalsplaybook@gmail.com</a>
+        <a href="tel:+8801984302439" data-hoverable style="text-decoration:none;color:#F4F1EC;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#8A8681;margin-right:8px;">T</span>+880 1984302439</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;font-size:.86rem;font-weight:500;">
+        <a href="https://github.com/faisalsplaybook" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#FF6A00;margin-right:5px;">/</span>GitHub</a>
+        <a href="https://www.linkedin.com/in/faisalsplaybook/" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#FF6A00;margin-right:5px;">/</span>LinkedIn</a>
+        <a href="https://x.com/faisalsplaybook" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#FF6A00;margin-right:5px;">/</span>X (Twitter)</a>
+        <a href="https://www.instagram.com/faisalsplaybook/" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#FF6A00;margin-right:5px;">/</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div style="position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:20px 0;overflow:hidden;background:linear-gradient(180deg,#0D0C0A,#0B0A09);">
+    <div style="display:flex;width:max-content;gap:0;animation:marquee 30s linear infinite;">
+      <div style="display:flex;align-items:center;gap:0;">
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">FLUTTER</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">DART</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:#FF6A00;padding:0 26px;white-space:nowrap;">FIREBASE</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">RIVERPOD</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">FIRESTORE</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:#FF6A00;padding:0 26px;white-space:nowrap;">PYTHON</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">SCIKIT-LEARN</span><span style="color:#FF6A00;">✦</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:0;" aria-hidden="true">
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">FLUTTER</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">DART</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:#FF6A00;padding:0 26px;white-space:nowrap;">FIREBASE</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">RIVERPOD</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">FIRESTORE</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:#FF6A00;padding:0 26px;white-space:nowrap;">PYTHON</span><span style="color:#FF6A00;">✦</span>
+        <span style="font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,2.6vw,2.1rem);letter-spacing:.03em;color:transparent;-webkit-text-stroke:1.2px rgba(244,241,236,.5);padding:0 26px;white-space:nowrap;">SCIKIT-LEARN</span><span style="color:#FF6A00;">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" style="position:relative;z-index:3;padding:clamp(80px,12vh,150px) clamp(18px,5vw,72px);">
+    <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(90% 70% at 10% 6%,rgba(255,106,0,.05),transparent 62%),radial-gradient(70% 55% at 92% 96%,rgba(244,241,236,.03),transparent 60%);"></div>
+    <div style="max-width:1200px;margin:0 auto;">
+      <p data-reveal style="font-family:'Kaushan Script',cursive;color:#FF6A00;font-size:clamp(1.6rem,4vw,2.5rem);margin:0 0 6px;">a little about me</p>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,5vw,72px);align-items:flex-start;">
+        <div style="flex:1 1 440px;min-width:300px;">
+          <p data-reveal style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(1.4rem,2.8vw,2.15rem);line-height:1.3;letter-spacing:-.01em;margin:.2em 0 0;">
+            I went from stressing over frameworks to<br><span style="color:#FF6A00;">“let's just start building and see where it goes.”</span>
+          </p>
+          <p data-reveal data-delay="90" style="color:#A6A29C;font-size:clamp(1rem,1.6vw,1.12rem);margin:1.4em 0 0;max-width:56ch;">
+            My main arsenal is <span style="color:#F4F1EC;">everything Flutter</span> for the frontend and <span style="color:#F4F1EC;">Firebase</span> for the backend, sticking to clean architecture, real time data, and interfaces that feel good to use. On the side, I love dabbling in <span style="color:#F4F1EC;">AI models and machine learning</span>, turning raw data into something that actually predicts and decides.
+          </p>
+          <p data-reveal data-delay="160" style="color:#A6A29C;font-size:clamp(1rem,1.6vw,1.12rem);margin:1.1em 0 0;max-width:56ch;">
+            Right now I'm focused on honing my skills to build apps that are <span style="color:#F4F1EC;">fun and genuinely help people</span>.
+          </p>
+        </div>
+        <div data-reveal data-delay="120" style="flex:0 1 360px;min-width:280px;width:100%;">
+          <a href="assets/Faisal_Hasan_Resume.pdf" download="Faisal Hasan Resume.pdf" data-hoverable data-magnetic style="display:block;position:relative;overflow:hidden;text-decoration:none;background:linear-gradient(160deg,#1b1613,#0E0E0E);border:1px solid rgba(255,106,0,.22);border-radius:22px;padding:30px 30px 32px;transition:border-color .3s,box-shadow .35s,transform .2s;" style-hover="border-color:rgba(255,106,0,.6);box-shadow:0 26px 55px -26px rgba(255,106,0,.5)">
+            <div style="position:absolute;right:-34px;top:-34px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.2),transparent 70%);pointer-events:none;"></div>
+            <div style="position:relative;">
+              <div style="display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:15px;background:rgba(255,106,0,.12);border:1px solid rgba(255,106,0,.32);font-size:1.5rem;">📄</div>
+              <div style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#8A8681;margin:22px 0 7px;">Résumé</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:#F4F1EC;letter-spacing:-.01em;line-height:1.15;">Grab the full résumé</div>
+              <p style="color:#A6A29C;font-size:.94rem;margin:9px 0 24px;">The complete rundown of my skills, stack, and projects.</p>
+              <span style="display:inline-flex;align-items:center;gap:9px;background:#FF6A00;color:#0A0A0A;font-weight:700;font-size:.92rem;padding:13px 24px;border-radius:12px;">Download Résumé <span>↓</span></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills" style="position:relative;z-index:3;padding:clamp(60px,9vh,110px) clamp(18px,5vw,72px);">
+    <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 60% at 50% 42%,rgba(255,106,0,.04),transparent 70%);"></div>
+    <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(244,241,236,.085) 1.2px,transparent 1.5px);background-size:24px 24px;-webkit-mask-image:radial-gradient(62% 72% at 50% 42%,#000,transparent 78%);mask-image:radial-gradient(62% 72% at 50% 42%,#000,transparent 78%);"></div>
+    <div style="max-width:1200px;margin:0 auto;">
+      <div data-reveal style="text-align:center;">
+        <p style="font-family:'Kaushan Script',cursive;color:#FF6A00;font-size:clamp(1.6rem,4vw,2.5rem);margin:0;">technologies &amp; tools</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.5vw,3rem);letter-spacing:-.02em;margin:.1em 0 0;">Everything I build with</h2>
+        <p style="color:#8A8681;max-width:52ch;margin:14px auto 0;font-size:clamp(.98rem,1.5vw,1.08rem);">From pixel perfect Flutter UIs to Firebase backends and the occasional ML notebook, here's my toolkit.</p>
+      </div>
+
+      <div data-reveal style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin:38px 0 34px;">
+        <button data-filter="all" style="background:none;border:none;border-bottom:2px solid #FF6A00;padding:8px 4px;color:#FF6A00;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">All</button>
+        <button data-filter="lang" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Languages</button>
+        <button data-filter="flutter" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Flutter &amp; State</button>
+        <button data-filter="backend" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Backend &amp; Data</button>
+        <button data-filter="arch" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Architecture</button>
+        <button data-filter="ml" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Machine Learning</button>
+        <button data-filter="tools" style="background:none;border:none;border-bottom:2px solid transparent;padding:8px 4px;color:#8A8681;font-weight:600;font-size:.92rem;cursor:pointer;transition:color .2s,border-color .2s;">Tools</button>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+        <span data-skill="lang" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Dart</span>
+        <span data-skill="lang" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Python</span>
+        <span data-skill="lang" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>OOP</span>
+        <span data-skill="flutter" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Flutter SDK</span>
+        <span data-skill="flutter" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Riverpod</span>
+        <span data-skill="flutter" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>flutter_bloc / Cubit</span>
+        <span data-skill="flutter" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>go_router</span>
+        <span data-skill="flutter" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>StatefulShellRoute</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Firebase Auth</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Cloud Firestore</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>FCM</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Local Notifications</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>REST APIs</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Dio</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Hive</span>
+        <span data-skill="backend" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>shared_preferences</span>
+        <span data-skill="arch" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Clean Architecture</span>
+        <span data-skill="arch" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Feature first</span>
+        <span data-skill="arch" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Repository Pattern</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>pandas</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>NumPy</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>scikit-learn</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>TF-IDF</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Logistic Regression</span>
+        <span data-skill="ml" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Google Colab</span>
+        <span data-skill="tools" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Git</span>
+        <span data-skill="tools" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>GitHub</span>
+        <span data-skill="tools" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>flutter_dotenv</span>
+        <span data-skill="tools" style="display:inline-flex;align-items:center;gap:9px;padding:11px 18px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.02);font-size:.9rem;font-weight:500;color:#EDEAE4;white-space:nowrap;transition:opacity .3s,transform .3s,border-color .25s,background .25s;" style-hover="border-color:rgba(255,106,0,.6);background:rgba(255,106,0,.08)"><span style="width:6px;height:6px;border-radius:50%;background:#FF6A00;"></span>Unit Testing</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" style="position:relative;z-index:3;padding:clamp(70px,10vh,130px) clamp(18px,5vw,72px);">
+    <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(46% 38% at 2% 20%,rgba(255,106,0,.05),transparent 66%),radial-gradient(46% 38% at 98% 74%,rgba(255,106,0,.05),transparent 66%);"></div>
+    <div style="max-width:1200px;margin:0 auto;">
+      <div data-reveal style="margin-bottom:48px;">
+        <p style="font-family:'Kaushan Script',cursive;color:#FF6A00;font-size:clamp(1.6rem,4vw,2.5rem);margin:0;">things I've built</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.5vw,3rem);letter-spacing:-.02em;margin:.1em 0 0;">Featured projects</h2>
+      </div>
+
+      <!-- KiDekhba -->
+      <div data-reveal data-tilt style="perspective:1400px;margin-bottom:40px;">
+        <div data-tilt-inner style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(28px,4vw,64px);background:linear-gradient(150deg,#151413,#0D0D0D);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(24px,3.4vw,48px);transition:transform .3s ease,border-color .3s;transform:perspective(1400px);" style-hover="border-color:rgba(255,106,0,.35)">
+          <div style="position:relative;flex:0 0 auto;margin:0 auto;">
+            <div style="position:absolute;inset:-30px;background:radial-gradient(circle,rgba(255,106,0,.26),transparent 68%);filter:blur(14px);"></div>
+            <div style="position:relative;animation:floaty 7s ease-in-out infinite;">
+              <div style="position:relative;width:clamp(220px,52vw,266px);transform:rotate(-3.5deg);border-radius:46px;background:linear-gradient(160deg,#2b2b2b,#0b0b0b);padding:10px;border:1px solid rgba(255,255,255,.14);box-shadow:0 46px 90px -36px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.08);">
+                <div style="position:absolute;right:-2.5px;top:104px;width:3px;height:62px;border-radius:2px;background:#3c3c3c;"></div>
+                <div style="position:absolute;left:-2.5px;top:88px;width:3px;height:36px;border-radius:2px;background:#3c3c3c;"></div>
+                <div style="position:absolute;left:-2.5px;top:134px;width:3px;height:36px;border-radius:2px;background:#3c3c3c;"></div>
+                <image-slot data-phone-slot id="kidekhba-shot" shape="rounded" radius="36" fit="cover" src="assets/proj-kidekhba-shot.webp" style="display:block;width:100%;height:auto;aspect-ratio:213/484;background:#101010;border-radius:36px;overflow:hidden;" placeholder="Drop your KiDekhba screenshot"></image-slot>
+                <div style="position:absolute;inset:10px;border-radius:36px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);"></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1 1 340px;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+              <span style="font-size:1.7rem;">🎬</span>
+            </div>
+            <h3 style="font-family:'Kaushan Script',cursive;font-weight:400;font-size:clamp(2rem,4.4vw,2.9rem);color:#F4F1EC;margin:0;">KiDekhba</h3>
+            <p style="color:#FF9D4D;font-weight:500;margin:2px 0 0;">Turn the group chat into a shared, votable watchlist.</p>
+            <p style="color:#A6A29C;font-size:1.02rem;margin:16px 0 0;max-width:52ch;">A collaborative Flutter app for tracking movies &amp; shows with friends. Shared watchlists you vote on together, synced live, with discovery powered by TMDB.</p>
+            <div style="display:flex;flex-direction:column;gap:9px;margin:20px 0 0;">
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Shared watchlists with live voting &amp; real time Firestore sync</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Firebase Auth with full password reset flow</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Push notifications (FCM) across every app state</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>TMDB powered discovery &amp; search</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;">
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Flutter</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Dart</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Riverpod</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Cubit</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">GoRouter</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Firebase</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Dio</span>
+            </div>
+            <a href="https://github.com/faisalsplaybook/kidekhba" target="_blank" data-hoverable data-magnetic style="display:inline-flex;align-items:center;gap:9px;margin:26px 0 0;background:#FF6A00;color:#0A0A0A;text-decoration:none;font-weight:600;font-size:.92rem;padding:13px 22px;border-radius:12px;transition:transform .18s,box-shadow .25s;" style-hover="box-shadow:0 14px 30px -10px rgba(255,106,0,.6)">View on GitHub <span>↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SplitFrens -->
+      <div data-reveal data-tilt style="perspective:1400px;">
+        <div data-tilt-inner style="display:flex;flex-wrap:wrap-reverse;align-items:center;gap:clamp(28px,4vw,64px);background:linear-gradient(150deg,#151413,#0D0D0D);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(24px,3.4vw,48px);transition:transform .3s ease,border-color .3s;transform:perspective(1400px);" style-hover="border-color:rgba(255,106,0,.35)">
+          <div style="flex:1 1 340px;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+              <span style="font-size:1.7rem;">💸</span>
+            </div>
+            <h3 style="font-family:'Kaushan Script',cursive;font-weight:400;font-size:clamp(2rem,4.4vw,2.9rem);color:#F4F1EC;margin:0;">SplitFrens</h3>
+            <p style="color:#FF9D4D;font-weight:500;margin:2px 0 0;">Split expenses with friends. Trips, hangouts, done.</p>
+            <p style="color:#A6A29C;font-size:1.02rem;margin:16px 0 0;max-width:52ch;">A beautifully designed Flutter app to split expenses for hangouts and trips, with live currency conversion built in for travel.</p>
+            <div style="display:flex;flex-direction:column;gap:9px;margin:20px 0 0;">
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Equal splits that just work</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Live currency conversion (Travel Mode)</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Persistent local storage with Hive</div>
+              <div style="display:flex;gap:11px;align-items:flex-start;color:#CFCBC4;font-size:.94rem;"><span style="color:#FF6A00;margin-top:1px;">▹</span>Instant, shareable summaries</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;">
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Flutter</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Dart</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Riverpod</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Hive</span>
+              <span style="font-size:.78rem;color:#8A8681;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:5px 10px;">Dio</span>
+            </div>
+            <a href="https://github.com/faisalsplaybook/split_frens" target="_blank" data-hoverable data-magnetic style="display:inline-flex;align-items:center;gap:9px;margin:26px 0 0;background:transparent;color:#F4F1EC;text-decoration:none;font-weight:600;font-size:.92rem;padding:13px 22px;border-radius:12px;border:1px solid rgba(255,255,255,.2);transition:transform .18s,border-color .25s,background .25s;" style-hover="border-color:#FF6A00;background:rgba(255,106,0,.08)">View on GitHub <span>↗</span></a>
+          </div>
+          <div style="position:relative;flex:0 0 auto;margin:0 auto;">
+            <div style="position:absolute;inset:-30px;background:radial-gradient(circle,rgba(255,106,0,.26),transparent 68%);filter:blur(14px);"></div>
+            <div style="position:relative;animation:floaty 8.5s ease-in-out -2.5s infinite;">
+              <div style="position:relative;width:clamp(220px,52vw,266px);transform:rotate(3.5deg);border-radius:46px;background:linear-gradient(160deg,#2b2b2b,#0b0b0b);padding:10px;border:1px solid rgba(255,255,255,.14);box-shadow:0 46px 90px -36px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.08);">
+                <div style="position:absolute;left:-2.5px;top:104px;width:3px;height:62px;border-radius:2px;background:#3c3c3c;"></div>
+                <div style="position:absolute;right:-2.5px;top:88px;width:3px;height:36px;border-radius:2px;background:#3c3c3c;"></div>
+                <div style="position:absolute;right:-2.5px;top:134px;width:3px;height:36px;border-radius:2px;background:#3c3c3c;"></div>
+                <image-slot data-phone-slot id="splitfrens-shot" shape="rounded" radius="36" fit="cover" src="assets/proj-splitfrens-shot.webp" style="display:block;width:100%;height:auto;aspect-ratio:219/484;background:#101010;border-radius:36px;overflow:hidden;" placeholder="Drop your SplitFrens screenshot"></image-slot>
+                <div style="position:absolute;inset:10px;border-radius:36px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" style="position:relative;z-index:3;padding:clamp(70px,10vh,130px) clamp(18px,5vw,72px);overflow:hidden;">
+    <canvas data-star-canvas style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(72% 55% at 50% 104%,rgba(255,106,0,.06),transparent 70%);"></div>
+    <div style="position:relative;z-index:2;max-width:820px;margin:0 auto;text-align:center;">
+      <p data-reveal style="font-family:'Kaushan Script',cursive;color:#FF6A00;font-size:clamp(1.6rem,4vw,2.5rem);margin:0;">let's build something</p>
+      <h2 data-reveal style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(2.4rem,7vw,4.6rem);letter-spacing:-.01em;margin:.05em 0 0;background:linear-gradient(90deg,#FF6A00,#FF9D4D);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">CONTACT ME</h2>
+      <p data-reveal style="color:#A6A29C;margin:16px auto 0;max-width:48ch;font-size:clamp(1rem,1.6vw,1.1rem);">Have a project in mind, a job opportunity, or just want to say hi? Drop me a line and I'll get back to you soon.</p>
+
+      <form data-form data-reveal style="text-align:left;margin:38px 0 0;background:linear-gradient(160deg,rgba(22,20,19,.9),rgba(12,12,12,.9));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:clamp(22px,3.4vw,40px);">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;">
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#EDEAE4;margin-bottom:8px;">Full Name</label>
+            <input name="name" required placeholder="John Doe" style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#FF6A00;background:rgba(255,106,0,.06)">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#EDEAE4;margin-bottom:8px;">Email Address</label>
+            <input name="email" type="email" required placeholder="john@example.com" style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#FF6A00;background:rgba(255,106,0,.06)">
+          </div>
+          <div>
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#EDEAE4;margin-bottom:8px;">Phone <span style="color:#8A8681;font-weight:400;">(optional)</span></label>
+            <div style="display:flex;gap:8px;">
+              <input name="code" value="+880" style="width:70px;text-align:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 8px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s;" style-focus="border-color:#FF6A00">
+              <input name="phone" placeholder="1984 302439" style="flex:1;min-width:0;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#FF6A00;background:rgba(255,106,0,.06)">
+            </div>
+          </div>
+          <div style="grid-column:1 / -1;">
+            <label style="display:block;font-size:.82rem;font-weight:600;color:#EDEAE4;margin-bottom:8px;">Subject</label>
+            <input name="subject" placeholder="Freelance project, job opportunity…" style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#FF6A00;background:rgba(255,106,0,.06)">
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <label style="display:block;font-size:.82rem;font-weight:600;color:#EDEAE4;margin-bottom:8px;">Message</label>
+          <textarea name="message" required rows="5" placeholder="Tell me about your project or inquiry…" style="width:100%;resize:vertical;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 15px;color:#F4F1EC;font-size:.95rem;outline:none;transition:border-color .2s,background .2s;" style-focus="border-color:#FF6A00;background:rgba(255,106,0,.06)"></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:22px;">
+          <button data-form-btn data-hoverable type="submit" style="display:inline-flex;align-items:center;gap:9px;background:#FF6A00;color:#0A0A0A;border:none;border-radius:12px;padding:14px 30px;font-weight:700;font-size:.95rem;cursor:pointer;transition:box-shadow .25s,transform .18s;" style-hover="box-shadow:0 16px 34px -12px rgba(255,106,0,.65)">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.08);padding:clamp(56px,8vh,90px) clamp(18px,5vw,72px) 36px;overflow:hidden;">
+    <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(85% 75% at 50% 120%,rgba(255,106,0,.09),rgba(255,106,0,.025) 45%,transparent 72%);"></div>
+    <div style="max-width:1200px;margin:0 auto;">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;">
+        <div>
+          <p style="font-family:'Kaushan Script',cursive;color:#FF6A00;font-size:clamp(1.4rem,3.5vw,2rem);margin:0;">get in touch</p>
+          <h2 style="font-family:'Archivo Black',sans-serif;font-weight:400;font-size:clamp(2rem,6vw,3.6rem);letter-spacing:-.02em;line-height:.95;margin:.1em 0 0;">LET'S WORK<br>TOGETHER</h2>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:22px;font-size:.95rem;">
+            <a href="mailto:faisalsplaybook@gmail.com" data-hoverable style="text-decoration:none;color:#F4F1EC;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#8A8681;margin-right:8px;">E</span>faisalsplaybook@gmail.com</a>
+            <a href="tel:+8801984302439" data-hoverable style="text-decoration:none;color:#F4F1EC;transition:color .2s;" style-hover="color:#FF6A00"><span style="color:#8A8681;margin-right:8px;">T</span>+880 1984302439</a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start;">
+          <a href="assets/Faisal_Hasan_Resume.pdf" download="Faisal Hasan Resume.pdf" data-hoverable data-magnetic style="display:inline-flex;align-items:center;gap:10px;background:#F4F1EC;color:#0A0A0A;text-decoration:none;font-weight:600;font-size:.92rem;padding:13px 24px;border-radius:12px;transition:transform .18s,box-shadow .25s;" style-hover="box-shadow:0 14px 30px -12px rgba(244,241,236,.4)">Download Résumé <span style="color:#FF6A00;">↓</span></a>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;font-size:.9rem;font-weight:500;">
+            <a href="https://github.com/faisalsplaybook" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00">GitHub</a>
+            <a href="https://www.linkedin.com/in/faisalsplaybook/" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00">LinkedIn</a>
+            <a href="https://x.com/faisalsplaybook" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00">X (Twitter)</a>
+            <a href="https://www.instagram.com/faisalsplaybook/" target="_blank" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.07);font-size:.82rem;color:#6B6864;">
+        <span>© 2026 Faisal Hasan. Built with Flutter energy &amp; a lot of coffee.</span>
+        <a href="#top" data-hoverable style="text-decoration:none;color:#8A8681;transition:color .2s;" style-hover="color:#FF6A00">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){ super(props); this.rootRef = React.createRef(); }
+  renderVals(){ return { rootRef: this.rootRef }; }
+
+  componentDidMount(){
+    const root = this.rootRef.current; if(!root) return;
+    this._dead = false; this._cleanup = [];
+    const $ = (s)=>root.querySelector(s);
+    const $$ = (s)=>Array.from(root.querySelectorAll(s));
+    const mq = (q)=> (window.matchMedia ? window.matchMedia(q).matches : false);
+    const reduce = mq('(prefers-reduced-motion: reduce)');
+    const fine = mq('(pointer:fine)');
+    const raf = (fn)=>{ const step=()=>{ if(this._dead) return; fn(); requestAnimationFrame(step); }; requestAnimationFrame(step); };
+    const NL = String.fromCharCode(10);
+
+    // ---- reveals + name entrance handled by CSS animation (robust vs framework re-renders) ----
+
+    // (name entrance is CSS)
+
+    // ---- menu ----
+    try {
+      const btn=$('[data-menu-btn]'), panel=$('[data-menu-panel]'), icon=$('[data-menu-icon]'), links=$$('[data-menu-link]');
+      let open=false;
+      const set=(v)=>{ open=v; if(!panel) return; panel.style.maxHeight = v ? panel.scrollHeight+'px' : '0px'; panel.style.opacity=v?'1':'0'; panel.style.pointerEvents=v?'auto':'none'; if(icon) icon.style.transform=v?'rotate(180deg)':'none'; if(btn) btn.setAttribute('aria-expanded', v?'true':'false'); links.forEach((l,i)=>{ l.style.transitionDelay=(v?(80+i*55):0)+'ms'; l.style.opacity=v?'1':'0'; l.style.transform=v?'none':'translateY(-6px)'; }); };
+      set(false);
+      if(btn) btn.addEventListener('click',(e)=>{ e.stopPropagation(); set(!open); });
+      links.forEach(l=>l.addEventListener('click',()=>set(false)));
+      const outside=(e)=>{ if(open && panel && !panel.contains(e.target) && btn && !btn.contains(e.target)) set(false); };
+      document.addEventListener('click', outside); this._cleanup.push(()=>document.removeEventListener('click', outside));
+    } catch(e){}
+
+    // ---- nav bg + progress + parallax ----
+    try {
+      const nav=$('[data-nav]'), prog=$('[data-progress]'), plx=$$('[data-parallax]');
+      const onScroll=()=>{ const y=window.scrollY||window.pageYOffset||0;
+        if(nav){ const s=y>40; nav.style.background=s?'rgba(10,10,10,.72)':'transparent'; nav.style.backdropFilter=s?'blur(14px)':'none'; nav.style.webkitBackdropFilter=s?'blur(14px)':'none'; nav.style.borderBottomColor=s?'rgba(255,255,255,.08)':'transparent'; }
+        if(prog){ const h=(document.documentElement.scrollHeight-window.innerHeight); prog.style.transform='scaleX('+(h>0?Math.min(1,y/h):0)+')'; }
+        if(!reduce){ plx.forEach(el=>{ const sp=parseFloat(el.dataset.parallax)||0.05; el.style.transform='translateY('+(y*sp)+'px)'; }); }
+      };
+      window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+      this._cleanup.push(()=>window.removeEventListener('scroll', onScroll));
+    } catch(e){}
+
+    // ---- skills filter ----
+    try {
+      const chips=$$('[data-skill]'), tabs=$$('[data-filter]');
+      const apply=(cat)=>{ tabs.forEach(t=>{ const on=t.dataset.filter===cat; t.style.color=on?'#FF6A00':'#8A8681'; t.style.borderBottomColor=on?'#FF6A00':'transparent'; });
+        chips.forEach((c,i)=>{ const show = (cat==='all') || (c.dataset.skill===cat);
+          if(show){ c.style.display=''; requestAnimationFrame(()=>{ c.style.transitionDelay=((i%14)*22)+'ms'; c.style.opacity='1'; c.style.transform='none'; }); }
+          else { c.style.transitionDelay='0ms'; c.style.opacity='0'; c.style.transform='scale(.82)'; setTimeout(()=>{ if(c.style.opacity==='0') c.style.display='none'; }, 300); }
+        });
+      };
+      tabs.forEach(t=>t.addEventListener('click',()=>apply(t.dataset.filter))); apply('all');
+    } catch(e){}
+
+    // ---- phone slots: frame follows the screenshot's exact aspect so the FULL image always shows ----
+    try {
+      const hook=(slot)=>{
+        const im = slot.shadowRoot && slot.shadowRoot.querySelector('.frame img');
+        if(!im) return;
+        const apply=()=>{ if(im.naturalWidth && im.naturalHeight){ slot.style.height='auto'; slot.style.aspectRatio = im.naturalWidth+' / '+im.naturalHeight; } };
+        im.addEventListener('load', apply);
+        if(im.complete) apply();
+      };
+      $$('image-slot[data-phone-slot]').forEach(el=>{
+        if(el.shadowRoot) hook(el);
+        else if(window.customElements && customElements.whenDefined) customElements.whenDefined('image-slot').then(()=>{ if(!this._dead) hook(el); });
+      });
+    } catch(e){}
+
+    // ---- custom cursor ----
+    try {
+      const dot=$('[data-cursor-dot]'), ring=$('[data-cursor-ring]');
+      if(dot && ring && fine && !reduce){
+        dot.style.opacity='0'; ring.style.opacity='0';
+        let mx=window.innerWidth/2, my=window.innerHeight/2, rx=mx, ry=my;
+        const move=(e)=>{ mx=e.clientX; my=e.clientY; dot.style.opacity='1'; ring.style.opacity='1'; dot.style.transform='translate('+mx+'px,'+my+'px) translate(-50%,-50%)'; };
+        window.addEventListener('mousemove', move); this._cleanup.push(()=>window.removeEventListener('mousemove', move));
+        raf(()=>{ rx+=(mx-rx)*0.16; ry+=(my-ry)*0.16; ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)'; });
+        $$('a,button,input,textarea,[data-hoverable]').forEach(el=>{ el.addEventListener('mouseenter',()=>{ ring.style.width='50px'; ring.style.height='50px'; ring.style.borderColor='rgba(255,106,0,.9)'; }); el.addEventListener('mouseleave',()=>{ ring.style.width='30px'; ring.style.height='30px'; ring.style.borderColor='rgba(255,106,0,.5)'; }); });
+      } else { if(dot) dot.style.display='none'; if(ring) ring.style.display='none'; }
+    } catch(e){}
+
+    // ---- tilt + magnetic ----
+    try { if(fine && !reduce){
+      $$('[data-tilt]').forEach(card=>{ const inner=card.querySelector('[data-tilt-inner]')||card;
+        card.addEventListener('mousemove',(e)=>{ const r=card.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5; inner.style.transform='perspective(1400px) rotateX('+(-py*4).toFixed(2)+'deg) rotateY('+(px*5).toFixed(2)+'deg)'; });
+        card.addEventListener('mouseleave',()=>{ inner.style.transform='perspective(1400px)'; });
+      });
+      $$('[data-magnetic]').forEach(el=>{ el.addEventListener('mousemove',(e)=>{ const r=el.getBoundingClientRect(); el.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.22)+'px,'+((e.clientY-r.top-r.height/2)*0.3)+'px)'; }); el.addEventListener('mouseleave',()=>{ el.style.transform='none'; }); });
+    }} catch(e){}
+
+    // ---- particle fields ----
+    try {
+      const field=(canvas, opts)=>{ if(!canvas) return; const ctx=canvas.getContext('2d'); const DPR=Math.min(2, window.devicePixelRatio||1); let w=1,h=1;
+        const resize=()=>{ const r=canvas.getBoundingClientRect(); w=canvas.width=Math.max(1, Math.round(r.width*DPR)); h=canvas.height=Math.max(1, Math.round(r.height*DPR)); };
+        resize(); const ro=new ResizeObserver(resize); ro.observe(canvas); this._cleanup.push(()=>ro.disconnect());
+        const mk=()=>({ x:Math.random()*w, y:Math.random()*h, r:(Math.random()*opts.size+0.4), sx:(Math.random()-0.5)*opts.drift*DPR, sy:(opts.rise? -(Math.random()*opts.rise+0.05) : (Math.random()-0.5)*opts.drift)*DPR, a:Math.random()*6.28, tw:Math.random()*0.05+0.01, o:Math.random()*0.5+0.2, c:(opts.orange && Math.random()<opts.orange)?1:0 });
+        const parts=Array.from({length:opts.count}, mk);
+        raf(()=>{ ctx.clearRect(0,0,w,h); for(const p of parts){ p.x+=p.sx; p.y+=p.sy; p.a+=p.tw; if(p.x<-8)p.x=w+8; if(p.x>w+8)p.x=-8; if(p.y<-8)p.y=h+8; if(p.y>h+8)p.y=-8; const tw=opts.twinkle?(0.35+Math.abs(Math.sin(p.a))*0.65):1; const col = opts.stars ? (p.c?[255,106,0]:[255,255,255]) : [255,106,0]; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*DPR,0,6.2832); ctx.fillStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+(p.o*tw).toFixed(3)+')'; ctx.fill(); } });
+      };
+      if(!reduce){
+        field($('[data-hero-canvas]'), { count: window.innerWidth<700?24:44, size:1.7, drift:0.25, rise:0.5, twinkle:false, orange:1 });
+        field($('[data-star-canvas]'), { count: window.innerWidth<700?38:82, size:1.3, drift:0.14, rise:0, twinkle:true, stars:true, orange:0.14 });
+      }
+    } catch(e){}
+
+    // ---- contact form ----
+    try {
+      const form=$('[data-form]');
+      if(form){ form.addEventListener('submit',(e)=>{ e.preventDefault(); const fd=new FormData(form); const btn=form.querySelector('[data-form-btn]');
+        const name=(fd.get('name')||'').toString(), email=(fd.get('email')||'').toString(), code=(fd.get('code')||'').toString(), phone=(fd.get('phone')||'').toString(), subject=(fd.get('subject')||'Hello from your portfolio').toString(), message=(fd.get('message')||'').toString();
+        const fullPhone = phone ? (code+' '+phone) : '';
+        const body=encodeURIComponent(message + NL + NL + name + (email?(NL+email):'') + (fullPhone?(NL+fullPhone):''));
+        if(btn){ btn.textContent='Opening mail…'; btn.disabled=true; }
+        setTimeout(()=>{ window.location.href='mailto:faisalsplaybook@gmail.com?subject='+encodeURIComponent(subject)+'&body='+body; }, 220);
+        setTimeout(()=>{ if(btn) btn.textContent='Sent ✓'; }, 700);
+        setTimeout(()=>{ if(btn){ btn.textContent='Send Message'; btn.disabled=false; } form.reset(); }, 3400);
+      }); }
+    } catch(e){}
+  }
+
+  componentWillUnmount(){ this._dead=true; if(this._cleanup) this._cleanup.forEach(fn=>{ try{fn();}catch(e){} }); }
+}
+</script>
+</body>
+</html>
