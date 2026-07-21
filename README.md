@@ -3,7 +3,7 @@
 My personal developer portfolio — a single-page site introducing who I am,
 my skills, and the projects I've built.
 
-**🔗 Live site:** https://faisalsplaybook.github.io
+**🔗 Live site:** https://faisalhasanmahin.github.io
 
 ## Built with
 
